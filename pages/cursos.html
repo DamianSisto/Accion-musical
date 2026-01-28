@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acción Musical | Cursos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@500;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <a class="wa-float" href="https://wa.me/541156313633" target="_blank" rel="noopener"
+    aria-label="WhatsApp Acción Musical">
+    WhatsApp
+  </a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="./../index.html" aria-label="Acción Musical - Inicio">
+        <img class="brand-logo" src="/assets/images/accion-logo-completo-negro.png" alt="Acción Musical" />
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="../index.html">Inicio</a>
+        <a href="quienes-somos.html">Quiénes somos</a>
+        <a href="cursos.html" aria-current="page">Cursos</a>
+        <a href="talleres.html">Talleres</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-ghost" href="contacto.html">Consultar</a>
+        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+          ☰
+        </button>
+      </div>
+    </div>
+
+    <div class="menu-panel" data-menu-panel>
+      <div class="container" aria-label="Menú mobile">
+        <a href="../index.html">Inicio</a>
+        <a href="quienes-somos.html">Quiénes somos</a>
+        <a href="cursos.html" aria-current="page">Cursos</a>
+        <a href="talleres.html">Talleres</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="section-title">
+        <h2>Nuestros cursos</h2>
+        <p>
+          Trayectos regulares para construir técnica y llevarla al escenario.
+          Elegí tu foco o armá un recorrido integral.
+        </p>
+      </div>
+      <div class="grid" data-courses>
+        <article class="card course-card" data-course>
+          <div class="course-main">
+            <h3>Canto</h3>
+            <p>Técnica vocal, respiración, afinación y repertorio aplicado a escena.</p>
+            <span class="tag">Ver más</span>
+          </div>
+          <div class="course-expand" aria-hidden="true">
+            <p class="course-expand__title">Elegí tu edad</p>
+            <div class="course-options">
+              <button type="button" data-level="nino">Niño</button>
+              <button type="button" data-level="adolescente">Adolescente</button>
+              <button type="button" data-level="adulto">Adulto</button>
+            </div>
+          </div>
+        </article>
+        <article class="card course-card" data-course>
+          <div class="course-main">
+            <h3>Danza</h3>
+            <p>Entrenamiento físico, musicalidad y coreografías pensadas para teatro musical.</p>
+            <span class="tag">Ver más</span>
+          </div>
+          <div class="course-expand" aria-hidden="true">
+            <p class="course-expand__title">Elegí tu edad</p>
+            <div class="course-options">
+              <button type="button" data-level="nino">Niño</button>
+              <button type="button" data-level="adolescente">Adolescente</button>
+              <button type="button" data-level="adulto">Adulto</button>
+            </div>
+          </div>
+        </article>
+        <article class="card course-card" data-course>
+          <div class="course-main">
+            <h3>Actuación</h3>
+            <p>Interpretación, texto, subtexto y construcción de personaje con objetivos claros.</p>
+            <span class="tag">Ver más</span>
+          </div>
+          <div class="course-expand" aria-hidden="true">
+            <p class="course-expand__title">Elegí tu edad</p>
+            <div class="course-options">
+              <button type="button" data-level="nino">Niño</button>
+              <button type="button" data-level="adolescente">Adolescente</button>
+              <button type="button" data-level="adulto">Adulto</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div style="margin-top:22px;" class="cta-band">
+        <div>
+          <h3 style="margin:0 0 6px;">¿No sabés cuál elegir?</h3>
+          <p style="margin:0;color:var(--muted);">Te orientamos según tu experiencia, edad y objetivo (hobby o
+            profesional).</p>
+        </div>
+        <a class="btn btn-primary" href="contacto.html">Quiero que me orienten</a>
+      </div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="container footer-inner">
+      <small>© <span data-year></span> Acción Musical. Todos los derechos reservados.</small>
+      <small><a href="contacto.html">Contacto</a></small>
+    </div>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+
+</html>
