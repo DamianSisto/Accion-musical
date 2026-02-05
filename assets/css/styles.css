@@ -1,9 +1,14 @@
 /* =========================================================
-   ACCIÓN MUSICAL — Styles
-   - Punto medio (no tan claro), footer intacto
-   - Rutas arregladas para CSS dentro de /assets/css
-   - Cards con altura consistente en grillas (sin deformarse)
-   - Cursos: no estira las otras cards al abrir
+   ACCIÓN MUSICAL — Styles (FULL FILE, CLEAN)
+   - Estilo premium intermedio (no tan claro)
+   - Header fixed
+   - Grillas con altura consistente
+   - Cursos: no estira otras cards al abrir
+   - Index:
+     1) al abrir: SOLO foto (cover-only)
+     2) al scrollear: aparece HERO INTRO con textos SOBRE la MISMA foto
+     3) luego: corte a fondo sólido (main-after-hero) y sigue normal
+   - Sin !important
 ========================================================= */
 
 /* -------------------------
@@ -53,10 +58,10 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
+  padding-top: var(--header-h); /* ✅ header fixed: evita que tape contenido */
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: var(--text);
   line-height: 1.6;
-
   background:
     radial-gradient(900px 520px at 15% 0%, var(--brand-soft), transparent 60%),
     radial-gradient(900px 520px at 85% 10%, rgba(0,0,0,0.06), transparent 62%),
@@ -88,6 +93,7 @@ a { color: inherit; }
 
 .section { padding: 72px 0; }
 
+/* Badge (global) */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -96,7 +102,7 @@ a { color: inherit; }
   border: 1px solid var(--border);
   background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.82));
   border-radius: 999px;
-  color: rgba(255,255,255,0.90);
+  color: var(--text);
   font-size: 0.92rem;
 }
 
@@ -112,11 +118,13 @@ a { color: inherit; }
 }
 
 /* =========================================================
-   Header (Sticky - Glass)
+   Header (Fixed - Glass)
 ========================================================= */
-.site-header {
-  position: sticky;
+.site-header{
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 999;
   height: var(--header-h);
   backdrop-filter: blur(14px);
@@ -229,36 +237,27 @@ a { color: inherit; }
 .menu-panel { display: none; }
 
 /* =========================================================
-   Hero (Imagen + overlay)
-   IMPORTANTE: CSS está en /assets/css, por eso la ruta es ../images/...
+   HERO (base para otras páginas)
 ========================================================= */
 .hero {
   position: relative;
   overflow: hidden;
-  min-height: calc(100svh - var(--header-h));
+  min-height: calc(70svh - var(--header-h));
   display: grid;
   align-items: center;
   padding: 42px 0 64px;
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
   background:
-    linear-gradient(
-      90deg,
-      rgba(0, 0, 0, 0.48) 0%,
-      rgba(0, 0, 0, 0.28) 55%,
-      rgba(0, 0, 0, 0.48) 100%
-    ),
-    radial-gradient(900px 520px at 18% 10%, rgba(255, 106, 0, 0.14), transparent 60%),
+    linear-gradient(90deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.28) 50%, rgba(0,0,0,0.48) 100%),
+    radial-gradient(900px 520px at 18% 10%, rgba(255,106,0,0.12), transparent 60%),
     url("../images/accion-quienessomos.jpeg") center / cover no-repeat;
-
-  background-attachment: fixed;
-  filter: saturate(1.05) contrast(1.05);
+  filter: saturate(0.95) contrast(1.02) brightness(0.92);
 }
 
 .hero > .container { position: relative; z-index: 1; }
@@ -270,9 +269,22 @@ a { color: inherit; }
   align-items: center;
 }
 
-.hero .badge {
-  border-color: rgba(255,255,255,0.26);
-  background: rgba(255,255,255,0.10);
+/* Panel por defecto dentro del hero base */
+.hero-grid > div{
+  background: rgba(10, 12, 16, 0.22);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 22px;
+  padding: 22px 22px 18px;
+  box-shadow: 0 18px 48px rgba(0,0,0,0.22);
+}
+
+/* Badge dentro del hero: blanco y glass */
+.hero .badge{
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.92);
 }
 
 .hero h1 {
@@ -286,6 +298,7 @@ a { color: inherit; }
   font-size: 1.08rem;
   max-width: 62ch;
   margin: 0 0 18px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
 }
 
 /* KPIs */
@@ -306,9 +319,118 @@ a { color: inherit; }
 .kpi strong { display: block; font-size: 1.05rem; color: rgba(255,255,255,0.95); }
 .kpi span   { color: rgba(255,255,255,0.85); font-size: 0.92rem; }
 
-/* Mobile/Tablet: evitar issues con fixed */
-@media (max-width: 1024px) {
-  .hero::before { background-attachment: scroll; }
+/* =========================================================
+   INDEX — FOTO INICIAL + HERO INTRO SOBRE LA MISMA FOTO
+   Requisito: HTML usa:
+     <main class="home">
+       <section class="cover-only"></section>
+       <section class="hero hero--intro">...</section>
+       <div class="main-after-hero">...</div>
+     </main>
+========================================================= */
+
+/* La foto vive en todo el main.home (1 sola vez) */
+main.home{
+  position: relative;
+  background: url("../images/accion-quienessomos.jpeg") center / cover no-repeat fixed;
+}
+
+/* Un único overlay fijo (evita “barrido”) */
+main.home::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(1200px 700px at 50% 40%, rgba(0,0,0,0.10), rgba(0,0,0,0.40));
+  pointer-events: none;
+}
+
+/* Aseguramos que el contenido vaya por encima del overlay */
+main.home > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* 1) Cover-only: solo “pantalla de foto” (sin contenido) */
+.cover-only{
+  height: calc(100vh - var(--header-h));
+}
+
+@supports (height: 100svh) {
+  .cover-only{ height: calc(100svh - var(--header-h)); }
+}
+
+/* 2) Hero intro: NO tiene fondo propio (para no duplicar foto) */
+.hero.hero--intro{
+  background: transparent;
+}
+
+/* Desactivamos el overlay de .hero base para hero--intro */
+.hero.hero--intro::before{
+  content: none;
+}
+
+/* Usamos panel glass para el contenido (igual que te gustó) */
+.hero.hero--intro .hero-panel{
+  background: rgba(10, 12, 16, 0.22);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 22px;
+  padding: 26px 26px 18px;
+  box-shadow: 0 18px 48px rgba(0,0,0,0.22);
+}
+
+/* Indicador scroll */
+.hero-scroll-hint{
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+.hero-scroll-dot{
+  width: 34px;
+  height: 52px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.22);
+  position: relative;
+  background: rgba(255,255,255,0.06);
+}
+
+.hero-scroll-dot::after{
+  content:"";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.85);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 12px;
+  animation: heroScroll 1.25s infinite ease-in-out;
+}
+
+@keyframes heroScroll{
+  0%{ transform: translateX(-50%) translateY(0); opacity: 0.9; }
+  70%{ transform: translateX(-50%) translateY(18px); opacity: 0.15; }
+  100%{ transform: translateX(-50%) translateY(0); opacity: 0.9; }
+}
+
+/* 3) Corte limpio: desde acá el fondo vuelve a sólido */
+.main-after-hero{
+  background: var(--bg);
+  position: relative;
+  z-index: 2;
+  padding: 0; /* el body ya compensó el header */
+}
+
+/* Esta sección debe tener fondo sólido (como antes) */
+.main-after-hero .section--dark{
+  background: var(--surface-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 /* =========================================================
@@ -348,15 +470,11 @@ a { color: inherit; }
 
 /* =========================================================
    Grid + Cards (altura consistente)
-   - Por defecto, las cards en una misma fila igualan altura
-   - EXCEPCIÓN: Cursos (para que no estire al abrir)
 ========================================================= */
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 18px;
-
-  /* clave: iguala alturas por fila */
   align-items: stretch;
 }
 
@@ -368,8 +486,6 @@ a { color: inherit; }
   padding: 18px;
   box-shadow: var(--shadow);
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
-
-  /* clave: permite “empujar” tags/acciones al fondo */
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -392,8 +508,6 @@ a { color: inherit; }
   background: linear-gradient(135deg, rgba(255,106,0,0.95), rgba(255,204,102,0.85));
   padding: 6px 10px;
   border-radius: 999px;
-
-  /* evita “botones raros” estirados */
   align-self: flex-start;
 }
 
@@ -403,12 +517,11 @@ a { color: inherit; }
   border: 1px solid var(--border);
 }
 
-/* Grillas especiales */
 .grid-3 .card { grid-column: span 4; }
 .grid-5 .card { grid-column: span 3; }
 
 /* =========================================================
-   Testimonios (mismo alto y “who” abajo)
+   Testimonios
 ========================================================= */
 .testimonial .quote {
   margin: 0 0 14px;
@@ -421,7 +534,7 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: auto; /* empuja al fondo */
+  margin-top: auto;
   padding-top: 10px;
 }
 
@@ -527,7 +640,7 @@ textarea { min-height: 130px; resize: vertical; }
 }
 
 /* =========================================================
-   WhatsApp flotante (ícono centrado)
+   WhatsApp flotante
 ========================================================= */
 .wa-float {
   position: fixed;
@@ -563,7 +676,7 @@ textarea { min-height: 130px; resize: vertical; }
 }
 
 /* =========================================================
-   Contacto (Ubicación + datos)
+   Contacto
 ========================================================= */
 .contact-grid {
   display: grid;
@@ -639,7 +752,6 @@ textarea { min-height: 130px; resize: vertical; }
 .mini-kpi strong { display: block; }
 .mini-kpi span   { color: var(--muted); font-size: 0.92rem; }
 
-/* Mapa embed */
 .map-embed {
   min-height: 220px;
   border-radius: var(--radius);
@@ -659,7 +771,7 @@ textarea { min-height: 130px; resize: vertical; }
 }
 
 /* =========================================================
-   Staff cards (altura consistente dentro del carrusel)
+   Staff
 ========================================================= */
 .staff-card {
   padding: 0;
@@ -703,9 +815,6 @@ textarea { min-height: 130px; resize: vertical; }
   flex-wrap: wrap;
 }
 
-/* =========================================================
-   Staff Carousel
-========================================================= */
 .staff-carousel__viewport {
   overflow: hidden;
   border-radius: var(--radius);
@@ -718,8 +827,7 @@ textarea { min-height: 130px; resize: vertical; }
   transform: translateX(0);
   transition: transform 520ms ease;
   padding: 2px;
-
-  align-items: stretch; /* clave para igualar alturas */
+  align-items: stretch;
 }
 
 .staff-carousel__track.is-animating { transition: transform 520ms ease; }
@@ -777,7 +885,7 @@ textarea { min-height: 130px; resize: vertical; }
 }
 
 /* =========================================================
-   Footer (NO tocar: queda perfecto)
+   Footer
 ========================================================= */
 .footer {
   background: #0b0d12;
@@ -840,21 +948,17 @@ textarea { min-height: 130px; resize: vertical; }
 
 /* =========================================================
    Cursos — comportamiento
-   - IMPORTANTE: NO igualar alturas del grid para que no estire al abrir
 ========================================================= */
 .grid[data-courses]{
-  align-items: start; /* clave: evita que una abierta estire a las demás */
+  align-items: start;
 }
 
 .course-card{
   position: relative;
   cursor: pointer;
   overflow: hidden;
-
-  /* evita que el display:flex de .card afecte a cursos */
   display: block;
   height: auto;
-
   min-height: 220px;
   padding-bottom: 64px;
 }
@@ -864,7 +968,7 @@ textarea { min-height: 130px; resize: vertical; }
   left: 18px;
   bottom: 18px;
   margin-top: 0;
-  align-self: auto; /* por las dudas */
+  align-self: auto;
 }
 
 .course-expand{
@@ -880,7 +984,7 @@ textarea { min-height: 130px; resize: vertical; }
   pointer-events: none;
   overflow: hidden;
 
-  transition: max-height 520ms ease, opacity 280ms ease; /* más suave */
+  transition: max-height 520ms ease, opacity 280ms ease;
 }
 
 .course-expand__title{
@@ -943,7 +1047,6 @@ textarea { min-height: 130px; resize: vertical; }
 
   .contact-grid { grid-template-columns: 1fr; }
 
-  /* Carrusel: 2 visibles */
   .staff-carousel__track .staff-card {
     flex-basis: calc((100% - 18px) / 2);
   }
@@ -1001,22 +1104,29 @@ textarea { min-height: 130px; resize: vertical; }
 
   .form-grid { grid-template-columns: 1fr; }
 
-  /* Carrusel: 1 visible */
   .staff-carousel__track .staff-card {
     flex-basis: 100%;
     min-width: 0;
   }
 
-  /* cursos más compacto */
   .course-card{ min-height: 200px; }
   .course-card.is-open{ min-height: 340px; }
+
+  /* En mobile, fixed background suele romper */
+  main.home{
+    background-attachment: scroll;
+  }
 }
 
 /* -------------------------
-   Reduced motion
+   Reduced motion (SIN !important)
 -------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  * { transition: none !important; }
-  .staff-carousel__track { transition: none !important; }
+  * {
+    animation-duration: 0.001ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.001ms;
+  }
+  .staff-carousel__track { transition-duration: 0.001ms; }
 }

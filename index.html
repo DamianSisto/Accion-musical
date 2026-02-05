@@ -57,10 +57,19 @@
         </div>
     </header>
 
-    <main>
-        <section class="hero section--hero">
+    <main class="home">
+
+        <!-- 1) PRIMERA PANTALLA: SOLO FOTO -->
+        <section class="cover-only" aria-label="Portada">
+            <a class="cover-scroll-hint" href="#hero" aria-label="Bajar">
+                <span class="hero-scroll-dot"></span>
+            </a>
+        </section>
+
+        <!-- 2) AHORA RECIÉN APARECE EL HERO CON TEXTO -->
+        <section id="hero" class="hero hero--intro section--hero">
             <div class="container hero-grid">
-                <div>
+                <div class="hero-panel">
                     <span class="badge">Formación integral para artistas escénicos</span>
                     <h1>Teatro musical con estándar profesional, para que brilles en escena.</h1>
                     <p>
@@ -70,132 +79,148 @@
                     </p>
 
                     <div class="kpis" aria-label="Indicadores clave">
-                        <div class="kpi"><strong>Clases dinámicas</strong><span>Entrenamiento + práctica escénica</span>
+                        <div class="kpi">
+                            <strong>Clases dinámicas</strong>
+                            <span>Entrenamiento + práctica escénica</span>
                         </div>
-                        <div class="kpi"><strong>Feedback real</strong><span>Técnica + interpretación</span></div>
-                        <div class="kpi"><strong>Todos los niveles</strong><span>Inicial / intermedio / avanzado</span>
+                        <div class="kpi">
+                            <strong>Feedback real</strong>
+                            <span>Técnica + interpretación</span>
                         </div>
-                        <div class="kpi"><strong>Objetivo escenario</strong><span>Montajes y muestras</span></div>
+                        <div class="kpi">
+                            <strong>Todos los niveles</strong>
+                            <span>Inicial / intermedio / avanzado</span>
+                        </div>
+                        <div class="kpi">
+                            <strong>Objetivo escenario</strong>
+                            <span>Montajes y muestras</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="section section--dark">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Una escuela pensada para el teatro musical</h2>
-                    <p>Entrenamiento integral, progresivo y con foco en performance. Lo que aprendés, lo aplicás.</p>
-                </div>
+        <!-- 3) RESTO DE LA PÁGINA IGUAL -->
+        <div class="main-after-hero">
 
-                <div class="grid grid-eq">
-                    <article class="card card-eq">
-                        <h3>Canto aplicado</h3>
-                        <p>Técnica vocal + interpretación. Trabajo de repertorio y presencia escénica.</p>
-                        <span class="tag">Voz</span>
-                    </article>
-
-                    <article class="card card-eq">
-                        <h3>Danza con intención</h3>
-                        <p>Entrenamiento físico, coordinación, musicalidad y coreografías para escena.</p>
-                        <span class="tag">Movimiento</span>
-                    </article>
-
-                    <article class="card card-eq">
-                        <h3>Actuación musical</h3>
-                        <p>Construcción de personaje, texto, ritmo, comedia/drama y storytelling.</p>
-                        <span class="tag">Interpretación</span>
-                    </article>
-                </div>
-
-                <div style="margin-top:22px;" class="cta-band">
-                    <div>
-                        <h3 style="margin:0 0 6px;">¿Querés que te guiemos?</h3>
-                        <p style="margin:0;color:var(--muted);">Te recomendamos el recorrido ideal según tu experiencia
-                            y objetivo.</p>
+            <section class="section section--dark">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Una escuela pensada para el teatro musical</h2>
+                        <p>Entrenamiento integral, progresivo y con foco en performance. Lo que aprendés, lo aplicás.
+                        </p>
                     </div>
-                    <a class="btn btn-primary" href="pages/contacto.html">Hablar con el equipo</a>
-                </div>
-            </div>
-        </section>
 
-        <section class="section section--video" aria-label="Testimonios de estudiantes">
-            <video class="bg-video" autoplay muted loop playsinline preload="metadata">
-                <source src="assets/video/accion-index.mp4" type="video/mp4" />
-            </video>
+                    <div class="grid grid-eq">
+                        <article class="card card-eq">
+                            <h3>Canto aplicado</h3>
+                            <p>Técnica vocal + interpretación. Trabajo de repertorio y presencia escénica.</p>
+                            <span class="tag">Voz</span>
+                        </article>
 
-            <div class="container">
-                <div class="section-title">
-                    <h2>Lo que dicen quienes entrenan con nosotros</h2>
-                    <p>Experiencias reales de alumnos y familias. Formación cuidada, exigente y con resultados.</p>
-                </div>
+                        <article class="card card-eq">
+                            <h3>Danza con intención</h3>
+                            <p>Entrenamiento físico, coordinación, musicalidad y coreografías para escena.</p>
+                            <span class="tag">Movimiento</span>
+                        </article>
 
-                <div class="grid grid-3 grid-eq">
-                    <article class="card testimonial card-eq">
-                        <p class="quote">“Llegué con miedo a cantar y en pocas clases ya tenía herramientas claras. El
-                            feedback es directo pero cuidado, y se nota la progresión.”</p>
-                        <div class="who">
-                            <span class="avatar" aria-hidden="true"></span>
-                            <div><strong>Martina G.</strong><span>Alumna — Teens</span></div>
-                        </div>
-                    </article>
-
-                    <article class="card testimonial card-eq">
-                        <p class="quote">“Mi hija sale feliz y enfocada. No es solo ‘hacer actividades’: trabajan
-                            técnica y escena. La recomiendo por el clima y la seriedad.”</p>
-                        <div class="who">
-                            <span class="avatar" aria-hidden="true"></span>
-                            <div><strong>Carolina R.</strong><span>Mamá — Mini kids</span></div>
-                        </div>
-                    </article>
-
-                    <article class="card testimonial card-eq">
-                        <p class="quote">“Buscaba un lugar con estándar profesional. Acá entrenás en serio y aplicás
-                            todo en performance. Se labura cuerpo, voz e interpretación.”</p>
-                        <div class="who">
-                            <span class="avatar" aria-hidden="true"></span>
-                            <div><strong>Franco S.</strong><span>Alumno — Teatro musical</span></div>
-                        </div>
-                    </article>
-
-                    <article class="card testimonial card-eq">
-                        <p class="quote">“Me ayudaron a ordenar mi objetivo: qué entrenar primero y cómo armar un
-                            recorrido. Se agradece la claridad y el acompañamiento.”</p>
-                        <div class="who">
-                            <span class="avatar" aria-hidden="true"></span>
-                            <div><strong>Lucía P.</strong><span>Alumna — Canto</span></div>
-                        </div>
-                    </article>
-
-                    <article class="card testimonial card-eq">
-                        <p class="quote">“En danza me destrabé con musicalidad y presencia. El entrenamiento es
-                            exigente, pero salís con confianza real.”</p>
-                        <div class="who">
-                            <span class="avatar" aria-hidden="true"></span>
-                            <div><strong>Valen M.</strong><span>Alumna — Danza</span></div>
-                        </div>
-                    </article>
-
-                    <article class="card testimonial card-eq">
-                        <p class="quote">“La metodología es progresiva. No te tiran ‘a hacer’ sin base: se construye
-                            técnica y después se lleva a escena.”</p>
-                        <div class="who">
-                            <span class="avatar" aria-hidden="true"></span>
-                            <div><strong>Nicolás D.</strong><span>Alumno — Teatro musical</span></div>
-                        </div>
-                    </article>
-                </div>
-
-                <div style="margin-top:22px;" class="cta-band">
-                    <div>
-                        <h3 style="margin:0 0 6px;">¿Querés conocernos?</h3>
-                        <p style="margin:0;color:var(--muted);">Escribinos y te invitamos a conocer tu recorrido
-                            artístico ideal.</p>
+                        <article class="card card-eq">
+                            <h3>Actuación musical</h3>
+                            <p>Construcción de personaje, texto, ritmo, comedia/drama y storytelling.</p>
+                            <span class="tag">Interpretación</span>
+                        </article>
                     </div>
-                    <a class="btn btn-primary" href="pages/contacto.html">Pedir orientación</a>
+
+                    <div style="margin-top:22px;" class="cta-band">
+                        <div>
+                            <h3 style="margin:0 0 6px;">¿Querés que te guiemos?</h3>
+                            <p style="margin:0;color:var(--muted);">Te recomendamos el recorrido ideal según tu
+                                experiencia y objetivo.</p>
+                        </div>
+                        <a class="btn btn-primary" href="pages/contacto.html">Hablar con el equipo</a>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            <section class="section section--video" aria-label="Testimonios de estudiantes">
+                <video class="bg-video" autoplay muted loop playsinline preload="metadata">
+                    <source src="assets/video/accion-index.mp4" type="video/mp4" />
+                </video>
+
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Lo que dicen quienes entrenan con nosotros</h2>
+                        <p>Experiencias reales de alumnos y familias. Formación cuidada, exigente y con resultados.</p>
+                    </div>
+
+                    <div class="grid grid-3 grid-eq">
+                        <article class="card testimonial card-eq">
+                            <p class="quote">“Llegué con miedo a cantar y en pocas clases ya tenía herramientas claras.
+                                El feedback es directo pero cuidado, y se nota la progresión.”</p>
+                            <div class="who">
+                                <span class="avatar" aria-hidden="true"></span>
+                                <div><strong>Martina G.</strong><span>Alumna — Teens</span></div>
+                            </div>
+                        </article>
+
+                        <article class="card testimonial card-eq">
+                            <p class="quote">“Mi hija sale feliz y enfocada. No es solo ‘hacer actividades’: trabajan
+                                técnica y escena. La recomiendo por el clima y la seriedad.”</p>
+                            <div class="who">
+                                <span class="avatar" aria-hidden="true"></span>
+                                <div><strong>Carolina R.</strong><span>Mamá — Mini kids</span></div>
+                            </div>
+                        </article>
+
+                        <article class="card testimonial card-eq">
+                            <p class="quote">“Buscaba un lugar con estándar profesional. Acá entrenás en serio y aplicás
+                                todo en performance. Se labura cuerpo, voz e interpretación.”</p>
+                            <div class="who">
+                                <span class="avatar" aria-hidden="true"></span>
+                                <div><strong>Franco S.</strong><span>Alumno — Teatro musical</span></div>
+                            </div>
+                        </article>
+
+                        <article class="card testimonial card-eq">
+                            <p class="quote">“Me ayudaron a ordenar mi objetivo: qué entrenar primero y cómo armar un
+                                recorrido. Se agradece la claridad y el acompañamiento.”</p>
+                            <div class="who">
+                                <span class="avatar" aria-hidden="true"></span>
+                                <div><strong>Lucía P.</strong><span>Alumna — Canto</span></div>
+                            </div>
+                        </article>
+
+                        <article class="card testimonial card-eq">
+                            <p class="quote">“En danza me destrabé con musicalidad y presencia. El entrenamiento es
+                                exigente, pero salís con confianza real.”</p>
+                            <div class="who">
+                                <span class="avatar" aria-hidden="true"></span>
+                                <div><strong>Valen M.</strong><span>Alumna — Danza</span></div>
+                            </div>
+                        </article>
+
+                        <article class="card testimonial card-eq">
+                            <p class="quote">“La metodología es progresiva. No te tiran ‘a hacer’ sin base: se construye
+                                técnica y después se lleva a escena.”</p>
+                            <div class="who">
+                                <span class="avatar" aria-hidden="true"></span>
+                                <div><strong>Nicolás D.</strong><span>Alumno — Teatro musical</span></div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div style="margin-top:22px;" class="cta-band">
+                        <div>
+                            <h3 style="margin:0 0 6px;">¿Querés conocernos?</h3>
+                            <p style="margin:0;color:var(--muted);">Escribinos y te invitamos a conocer tu recorrido
+                                artístico ideal.</p>
+                        </div>
+                        <a class="btn btn-primary" href="pages/contacto.html">Pedir orientación</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
     </main>
 
     <footer class="footer">

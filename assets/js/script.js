@@ -174,3 +174,10 @@
     if (e.key === "Escape") cards.forEach(closeCard);
   });
 })();
+
+// Solo en home: fuerza iniciar arriba
+if (document.querySelector("main.home")) {
+  window.history.scrollRestoration = "manual";
+  window.scrollTo(0, 0);
+}
+
