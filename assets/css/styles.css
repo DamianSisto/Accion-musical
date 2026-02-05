@@ -128,7 +128,7 @@ a { color: inherit; }
   z-index: 999;
   height: var(--header-h);
   backdrop-filter: blur(14px);
-  background: rgba(255, 255, 255, 0.90);
+  background: rgb(255, 255, 255);
   border-bottom: 1px solid var(--border);
 }
 
@@ -335,13 +335,17 @@ main.home{
   background: url("../images/accion-quienessomos.jpeg") center / cover no-repeat fixed;
 }
 
-/* Un único overlay fijo (evita “barrido”) */
+/* ✅ Overlay fijo MÁS CLARO (ajuste de luminosidad) */
 main.home::before{
   content:"";
   position: fixed;
   inset: 0;
   z-index: 0;
-  background: radial-gradient(1200px 700px at 50% 40%, rgba(0,0,0,0.10), rgba(0,0,0,0.40));
+  background: radial-gradient(
+    1200px 700px at 50% 40%,
+    rgba(0,0,0,0.06),
+    rgba(0,0,0,0.26)
+  );
   pointer-events: none;
 }
 
@@ -431,7 +435,12 @@ main.home > *{
   background: var(--surface-2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+
+  /* 👇 AUMENTO DE ALTO VISUAL */
+  padding: 180px 0;                       /* antes: heredaba 72px */
+  min-height: calc(100svh - var(--header-h));
 }
+
 
 /* =========================================================
    Section titles
@@ -861,11 +870,12 @@ textarea { min-height: 130px; resize: vertical; }
   filter: blur(1.5px) saturate(0.8) contrast(1.05);
 }
 
+/* ✅ Overlay MÁS TRASLÚCIDO (video más presente) */
 .section--video::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.80);
+  background: rgba(255, 255, 255, 0.62);
   z-index: 1;
 }
 
@@ -1129,4 +1139,54 @@ textarea { min-height: 130px; resize: vertical; }
     transition-duration: 0.001ms;
   }
   .staff-carousel__track { transition-duration: 0.001ms; }
+}
+
+/* =========================================================
+   FIX — Scroll hint en cover-only (sin tocar HTML)
+   Tu HTML usa .cover-scroll-hint, así que lo estilamos acá
+========================================================= */
+
+.cover-only{
+  position: relative; /* asegura que el hint se posicione dentro */
+}
+
+.cover-scroll-hint{
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.cover-scroll-hint:hover{
+  transform: translateX(-50%) translateY(-2px);
+  opacity: 1;
+}
+
+/* Reutilizamos tu dot existente */
+.cover-scroll-hint .hero-scroll-dot{
+  width: 34px;
+  height: 52px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.22);
+  position: relative;
+  background: rgba(255,255,255,0.06);
+}
+
+.cover-scroll-hint .hero-scroll-dot::after{
+  content:"";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.85);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 12px;
+  animation: heroScroll 1.25s infinite ease-in-out;
 }
