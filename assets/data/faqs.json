@@ -1,0 +1,42 @@
+[
+  {
+    "q": "¿Cuáles son los horarios de las clases?",
+    "a": "Tenemos turnos vespertinos y matutinos. Consulta la página de contacto para horarios actuales."
+  },
+  {
+    "q": "¿Qué niveles ofrecen?",
+    "a": "Ofrecemos niveles inicial, intermedio y avanzado. Hacemos orientación para recomendar tu nivel."
+  },
+  {
+    "q": "¿Dónde están ubicados?",
+    "a": "Nos encontramos en Capital Federal, Buenos Aires. Escribinos por email para la dirección exacta y horarios."
+  },
+  {
+    "q": "¿Puedo tomar clases sueltas o solo cursos?",
+    "a": "Ofrecemos cursos regulares y talleres intensivos; también evaluamos clases individuales en casos especiales."
+  },
+  {
+    "q": "¿Cómo me inscribo?",
+    "a": "Completá el formulario de la página de contacto o escribinos por WhatsApp al número disponible."
+  },
+  {
+    "q": "¿Tienen descuento por hermanos o grupos?",
+    "a": "En algunos ciclos ofrecemos promociones. Consultanos por email o WhatsApp para condiciones vigentes."
+  },
+  {
+    "q": "¿Se realizan muestras o presentaciones?",
+    "a": "Sí: realizamos muestras y montajes periódicos donde los alumnos aplican lo trabajado en clase."
+  },
+  {
+    "q": "¿Cuál es la edad mínima para inscribirse?",
+    "a": "Tenemos propuestas para todas las edades: desde Mini Kids hasta formación profesional. Consultá según la actividad."
+  },
+  {
+    "q": "¿Necesito experiencia previa en canto o danza?",
+    "a": "No es obligatorio. Para niveles iniciales no se requiere experiencia; para niveles avanzados se recomienda audición."
+  },
+  {
+    "q": "¿Qué ropa o material debo llevar a clase?",
+    "a": "Ropa cómoda y calzado adecuado para danza. Para canto, trae una canción lista para trabajar si tenés repertorio."
+  }
+]

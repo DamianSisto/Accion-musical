@@ -181,3 +181,15 @@ if (document.querySelector("main.home")) {
   window.scrollTo(0, 0);
 }
 
+// Cargar FAQ bot dinámicamente (resuelve ruta relativo según el script actual)
+(function(){
+  const current = document.currentScript || (function(){ const s = document.querySelectorAll('script'); return s[s.length-1]; })();
+  const src = current && current.getAttribute('src') || '';
+  const base = src.replace(/script\.js(\?.*)?$/,'');
+  const faqSrc = base + 'faq-bot.js';
+  const loader = document.createElement('script');
+  loader.src = faqSrc;
+  loader.defer = true;
+  document.body.appendChild(loader);
+})();
+
