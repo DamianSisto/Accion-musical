@@ -16,14 +16,14 @@
   const floatBtn = document.createElement('button');
   floatBtn.className = 'faq-float';
   floatBtn.setAttribute('aria-label','Abrir ayuda — Preguntas frecuentes');
-  floatBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1 .45-1.7 1.17-2.41l1.24-1.26A2 2 0 0012 6.5c-1.1 0-2 .9-2 2H8c0-2.21 1.79-4 4-4 1.1 0 2.1.45 2.83 1.17.74.72 1.17 1.75 1.17 2.83 0 1.1-.41 1.9-1.13 2.75z"/></svg>';
+  floatBtn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="17" font-size="20" font-weight="bold" text-anchor="middle" fill="currentColor" font-family="system-ui, -apple-system, sans-serif">?</text></svg>';
 
   const panel = document.createElement('aside');
   panel.className = 'faq-panel';
   panel.setAttribute('aria-hidden','true');
   panel.innerHTML = `
     <div class="faq-header">
-      <strong>Ayuda — Preguntas frecuentes</strong>
+      <strong>Preguntas frecuentes</strong>
       <button class="faq-close" aria-label="Cerrar">✕</button>
     </div>
     <div class="faq-body">
@@ -44,8 +44,21 @@
   function openPanel(){ panel.classList.add('is-open'); panel.setAttribute('aria-hidden','false'); panel.querySelector('.faq-search')?.focus(); }
   function closePanel(){ panel.classList.remove('is-open'); panel.setAttribute('aria-hidden','true'); panel.querySelector('.faq-answer')?.setAttribute('hidden','true'); }
 
-  floatBtn.addEventListener('click', ()=>{ const open = panel.classList.toggle('is-open'); panel.setAttribute('aria-hidden', String(!open)); if(open) panel.querySelector('.faq-search')?.focus(); });
-  panel.querySelector('.faq-close')?.addEventListener('click', closePanel);
+  floatBtn.addEventListener('click', ()=>{
+    const open = panel.classList.toggle('is-open');
+    panel.setAttribute('aria-hidden', String(!open));
+    if(open){
+      panel.querySelector('.faq-search')?.focus();
+      // trigger spin animation and keep scaled state
+      floatBtn.classList.add('is-open-btn','is-spinning');
+      const onAnimEnd = ()=>{ floatBtn.classList.remove('is-spinning'); floatBtn.removeEventListener('animationend', onAnimEnd); };
+      floatBtn.addEventListener('animationend', onAnimEnd);
+    } else {
+      floatBtn.classList.remove('is-open-btn','is-spinning');
+    }
+  });
+
+  panel.querySelector('.faq-close')?.addEventListener('click', ()=>{ closePanel(); floatBtn.classList.remove('is-open-btn','is-spinning'); });
 
   // Cargar preguntas
   let faqs = [];
