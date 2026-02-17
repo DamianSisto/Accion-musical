@@ -28,7 +28,7 @@
             <nav class="nav" aria-label="Navegación principal">
                 <a href="../index.html">Inicio</a>
                 <a href="quienes-somos.html">Quiénes somos</a>
-                <a href="cursos.html">Cursos</a>
+                <a href="clases.html">Clases</a>
                 <a href="talleres.html">Talleres</a>
                 <a href="contacto.html" aria-current="page">Contacto</a>
             </nav>
@@ -44,7 +44,7 @@
             <div class="container" aria-label="Menú mobile">
                 <a href="../index.html">Inicio</a>
                 <a href="quienes-somos.html">Quiénes somos</a>
-                <a href="cursos.html">Cursos</a>
+                <a href="clases.html">Clases</a>
                 <a href="talleres.html">Talleres</a>
                 <a href="contacto.html" aria-current="page">Contacto</a>
             </div>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="form">
-                <form>
+                <form data-contact-form>
                     <div class="form-grid">
                         <div class="field">
                             <label for="nombre">Nombre</label>
@@ -69,6 +69,11 @@
                         <div class="field">
                             <label for="email">Email</label>
                             <input id="email" name="email" type="email" placeholder="tu@email.com" required />
+                        </div>
+
+                        <div class="field">
+                            <label for="celular">Celular</label>
+                            <input id="celular" name="celular" type="tel" inputmode="tel" placeholder="11 1234 5678" />
                         </div>
 
                         <div class="field">
@@ -96,6 +101,8 @@
                         <textarea id="mensaje" name="mensaje"
                             placeholder="Contanos edad, experiencia y objetivo (hobby, audiciones, formación, etc.)"></textarea>
                     </div>
+
+                    <div data-contact-status style="margin-top:14px; padding:12px; border-radius:4px; display:none; font-size:14px;"></div>
 
                     <div style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap;">
                         <button class="btn btn-primary" type="submit">Enviar</button>

@@ -510,6 +510,75 @@ main.home > *{
 .card h3 { margin: 0 0 8px; font-size: 1.25rem; }
 .card p  { margin: 0; color: var(--muted); }
 
+/* Igualar altura de columnas en grids de cursos/clases */
+.grid.grid-eq { align-items: stretch; }
+.grid.grid-eq .card { display: flex; flex-direction: column; height: 100%; }
+.grid.grid-eq .card .course-main { flex: 1 1 auto; }
+
+/* =========================================================
+   Método — card con imagen a la izquierda (quienes-somos)
+========================================================= */
+.method-card {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: flex-start;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(255,255,255,0.96));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.method-image {
+  flex: 0 0 48%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(20,20,20,0.06);
+}
+
+.method-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.method-body { flex: 1 1 auto; min-width: 260px; }
+
+.method-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.45rem;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.method-lead { color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+
+.method-kpis { display: flex; flex-direction: column; gap: 16px; margin-bottom: 18px; }
+
+.method-kpi {
+  background: rgba(255,255,255,0.98);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid var(--border);
+}
+
+.method-kpi strong { display:block; margin-bottom:6px; }
+.method-kpi span { color: var(--muted); }
+
+.method-actions { display:flex; gap:12px; flex-wrap:wrap; }
+
+@media (max-width: 900px) {
+  .method-card { flex-direction: column; }
+  .method-image { flex: 0 0 auto; width: 100%; }
+  .method-body { width: 100%; min-width: 0; text-align: center; }
+}
+
+
 .tag {
   display: inline-flex;
   margin-top: 12px;
@@ -647,6 +716,12 @@ textarea { min-height: 130px; resize: vertical; }
   color: var(--muted);
   font-size: 0.92rem;
   margin-top: 10px;
+}
+
+[data-contact-status] {
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 /* =========================================================
@@ -897,11 +972,46 @@ textarea { min-height: 130px; resize: vertical; }
 }
 
 /* =========================================================
+   Testimonial Carousel — auto-slide 1 card cada 3s
+========================================================= */
+.testimonial-carousel__viewport {
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.testimonial-carousel__track {
+  display: flex;
+  gap: 30px;
+  will-change: transform;
+  transform: translateX(0);
+  transition: transform 520ms ease;
+  padding: 0;
+  align-items: stretch;
+}
+
+.testimonial-carousel__track.is-animating { transition: transform 520ms ease; }
+
+.testimonial-carousel__track .card.testimonial {
+  flex: 0 0 100%;
+  min-width: 280px;
+  padding: 20px;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.testimonial-carousel__viewport:focus-visible {
+  outline: 3px solid var(--brand-ring);
+  outline-offset: 4px;
+}
+
+/* =========================================================
    Testimonios — Background Video
 ========================================================= */
 .section--video {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: var(--surface-2);
 }
 
@@ -1004,42 +1114,35 @@ textarea { min-height: 130px; resize: vertical; }
 /* =========================================================
    Cursos — comportamiento
 ========================================================= */
-.grid[data-courses]{
-  align-items: start;
-}
 
 .course-card{
   position: relative;
   cursor: pointer;
   overflow: hidden;
-  display: block;
-  height: auto;
+  display: flex;
+  flex-direction: column;
   min-height: 220px;
-  padding-bottom: 64px;
+  padding: 18px;
 }
 
 .course-card .tag{
-  position: absolute;
-  left: 18px;
-  bottom: 18px;
-  margin-top: 0;
-  align-self: auto;
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.course-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .course-expand{
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
-
-  display: grid;
+  display: none;
   gap: 14px;
-
-  max-height: 0;
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-
-  transition: max-height 520ms ease, opacity 280ms ease;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 
 .course-expand__title{
@@ -1049,17 +1152,23 @@ textarea { min-height: 130px; resize: vertical; }
   color: var(--muted);
 }
 
+.course-card.is-open .course-expand{
+  display: grid;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
 .course-card.is-open{
   min-height: 360px;
 }
 
-.course-card.is-open .course-expand{
-  max-height: 260px;
-  opacity: 1;
-  pointer-events: auto;
+.course-card.is-open .course-main {
+  padding-bottom: 0;
 }
 
-.course-options{
+
+.course-options {
   display: grid;
   gap: 12px;
 }
@@ -1094,6 +1203,9 @@ textarea { min-height: 130px; resize: vertical; }
 
   .card { grid-column: span 6; }
   .grid-5 .card { grid-column: span 6; }
+  
+  /* Las cards de grid-eq en mobile no deben ocupar span completo */
+  .grid-eq .card { grid-column: auto; }
 
   .cta-band {
     flex-direction: column;
@@ -1104,6 +1216,103 @@ textarea { min-height: 130px; resize: vertical; }
 
   .staff-carousel__track .staff-card {
     flex-basis: calc((100% - 18px) / 2);
+  }
+}
+
+@media (min-width: 721px) {
+  .main-after-hero .section--dark .grid.grid-eq {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+  }
+
+  .main-after-hero .section--dark .grid.grid-eq .card {
+    grid-column: span 4;
+  }
+}
+
+/* Reset para grid-eq en desktop */
+@media (min-width: 961px) {
+  .grid[data-courses]{
+    align-items: start;
+  }
+
+  .grid[data-courses] .card{
+    height: auto;
+    align-self: start;
+  }
+
+  .course-card{
+    height: auto;
+    align-self: start;
+  }
+
+  .grid-eq {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px !important;
+    flex-direction: unset;
+  }
+
+  .grid-eq .card {
+    grid-column: auto;
+    max-height: unset !important;
+    cursor: default;
+    overflow: visible;
+  }
+
+  .grid-eq .card h3 {
+    font-size: 1.24rem;
+  }
+
+  .grid-eq .card p,
+  .grid-eq .card .tag {
+    display: block !important;
+  }
+
+  .grid-eq .card.is-open {
+    background: unset;
+    border-color: unset;
+  }
+
+  /* Grid de testimonios en desktop - convertir carrusel a grid */
+  .testimonial-carousel {
+    display: block;
+  }
+
+  .testimonial-carousel__viewport {
+    overflow: visible !important;
+  }
+
+  .testimonial-carousel__track {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    transform: none !important;
+    will-change: unset;
+    transition: none !important;
+  }
+
+  .testimonial-carousel__track .card.testimonial {
+    flex: unset !important;
+    min-width: unset;
+    min-height: unset;
+    grid-column: auto;
+  }
+
+  /* Grid de testimonios - para mantener compatibilidad */
+  .grid-3 {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    overflow: visible !important;
+    gap: 22px;
+    padding: 0 !important;
+  }
+
+  .grid-3 .card {
+    flex: unset !important;
+    scroll-snap-align: unset;
+    padding: unset;
   }
 }
 
@@ -1164,12 +1373,79 @@ textarea { min-height: 130px; resize: vertical; }
     min-width: 0;
   }
 
+  .testimonial-carousel__track .card.testimonial {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
   .course-card{ min-height: 200px; }
   .course-card.is-open{ min-height: 340px; }
 
-  /* En mobile, fixed background suele romper */
+  /* Reducir padding más en section--dark para mobile */
+  .main-after-hero .section--dark {
+    padding: 40px 0;
+    min-height: auto;
+  }
+
+  /* Convertir grid en lista expandible para mobile */
+  .grid-eq {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .grid-eq .card {
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    max-height: 56px;
+    overflow: hidden;
+  }
+
+  .grid-eq .card h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text);
+  }
+
+  .grid-eq .card p {
+    display: none;
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .grid-eq .card .tag {
+    display: none;
+  }
+
+  .grid[data-courses] .card p,
+  .grid[data-courses] .card .tag {
+    display: block;
+  }
+
+  /* Estado expandido */
+  .grid-eq .card.is-open {
+    max-height: 500px;
+    background: rgba(255, 106, 0, 0.08);
+    border-color: rgba(255, 106, 0, 0.2);
+  }
+
+  .grid-eq .card.is-open p {
+    display: block;
+  }
+
+  .grid-eq .card.is-open .tag {
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  /* En mobile, mantener fixed background para efecto estático */
   main.home{
-    background-attachment: scroll;
+    background-attachment: fixed;
   }
 }
 
