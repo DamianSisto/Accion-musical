@@ -126,6 +126,7 @@
 
   const viewport = track.closest(".testimonial-carousel__viewport");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const isDesktop = window.matchMedia("(min-width: 961px)");
 
   let intervalId = null;
   let isPaused = false;
@@ -144,6 +145,7 @@
 
   function slideOnce() {
     if (reduceMotion.matches) return;
+    if (isDesktop.matches) return;
     if (isPaused || isAnimating) return;
 
     const step = getStepPx();
@@ -176,6 +178,7 @@
   function start() {
     stop();
     if (reduceMotion.matches) return;
+    if (isDesktop.matches) return;
     intervalId = window.setInterval(slideOnce, 3000);
   }
 
@@ -203,6 +206,11 @@
 
   reduceMotion.addEventListener?.("change", () => {
     if (reduceMotion.matches) stop();
+    else start();
+  });
+
+  isDesktop.addEventListener("change", () => {
+    if (isDesktop.matches) stop();
     else start();
   });
 
