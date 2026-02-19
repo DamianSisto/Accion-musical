@@ -1,68 +1,25 @@
-# Google Apps Script para Formulario de Contacto
+# Google Apps Script - Formulario de Contacto
 
-## Instrucciones paso a paso:
-
-### 1. Crear una Google Sheet
-- Ve a [Google Sheets](https://sheets.google.com)
-- Haz clic en "Crear" → "Hoja de cálculo"
-- Nómbrala "Acción Musical - Contactos"
-- En la primera fila, agrega estos encabezados:
-  - Columna A: `timestamp`
-  - Columna B: `nombre`
-  - Columna C: `email`
-  - Columna D: `celular`
-  - Columna E: `nivel`
-  - Columna F: `interes`
-  - Columna G: `mensaje`
-
-### 2. Crear el Apps Script
-- Ve a [Google Apps Script](https://script.google.com)
-- Crea un nuevo proyecto
-- Borra todo el código que hay allí
-- Copia y pega el código de abajo exactamente como está
-
-### 3. Obtener tu Script ID
-- En Apps Script, ve a Proyecto → Configuración del proyecto (izquierda)
-- Copia el "ID de script"
-- Guárdalo en algún lado (lo necesitarás después)
-
-### 4. Desplegar como Web App
-- En Apps Script, ve a Implementar → Nueva implementación
-- Tipo: **Web app**
-- Ejecutar como: **Tu cuenta de Google**
-- Quién tiene acceso: **Cualquiera que tenga el enlace**
-- Haz clic en "Desplegar"
-- Copia la URL que aparece (algo como `https://script.google.com/macros/d/XXXXX/usercache`)
-
-### 5. Actualizar el formulario HTML
-- Abre `assets/js/script.js`
-- Busca esta línea (está cerca del final):
-  ```javascript
-  const SCRIPT_URL = 'https://script.google.com/macros/d/YOUR-SCRIPT-ID/usercache';
-  ```
-- Reemplaza `YOUR-SCRIPT-ID` con el ID que copiaste en el paso 3
-
----
+## Reemplaza el código actual en Apps Script con lo siguiente:
 
 ## CÓDIGO DEL APPS SCRIPT (Cópialo en Apps Script)
 
 ```javascript
-// ID de la hoja de cálculo (cámbialo por el ID de tu hoja)
-const SPREADSHEET_ID = "YOUR-SPREADSHEET-ID";
-const SHEET_NAME = "Hoja 1"; // O el nombre de tu hoja
+const SPREADSHEET_ID = "1sso9mOypR9tRpst366GOCnvB99fMZ8fFP-744zGWoQE";
+const SHEET_NAME = "Contactos Acción";
+const HISTORY_SHEET_NAME = "Historial"; // Nombre de la nueva hoja
 
-// Email para notificaciones
-const NOTIFICATION_EMAIL = "damian.y.more.y.atun@gmail.com";
+const LOGO_URL = "https://i.postimg.cc/MTqg45n4/4844563.png";
 
 /**
- * Función principal que recibe los datos del formulario
+ * Recibe los datos del formulario y los guarda en la hoja principal.
  */
 function doPost(e) {
   try {
-    const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
-    
-    // Extraer datos del formulario
-    const timestamp = new Date().toLocaleString("es-AR");
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEET_NAME);
+
+    const ahora = new Date();
     const nombre = e.parameter.nombre || "";
     const email = e.parameter.email || "";
     const celular = e.parameter.celular || "";
@@ -70,94 +27,83 @@ function doPost(e) {
     const interes = e.parameter.interes || "";
     const mensaje = e.parameter.mensaje || "";
 
-    // Agregar fila a la hoja
-    sheet.appendRow([timestamp, nombre, email, celular, nivel, interes, mensaje]);
+    sheet.appendRow([ahora, nombre, email, celular, nivel, interes, mensaje]);
 
-    // Enviar email de notificación
-    enviarNotificacion(nombre, email, celular, nivel, interes, mensaje);
+    enviarNotificacionAlumno(nombre, email, celular, nivel, interes, mensaje);
 
-    // Retornar respuesta exitosa
-    return ContentService.createTextOutput("success")
-      .setMimeType(ContentService.MimeType.TEXT);
+    return ContentService.createTextOutput("success").setMimeType(ContentService.MimeType.TEXT);
   } catch (error) {
     Logger.log("Error: " + error.toString());
-    return ContentService.createTextOutput("error: " + error.toString())
-      .setMimeType(ContentService.MimeType.TEXT);
+    return ContentService.createTextOutput("error: " + error.toString()).setMimeType(ContentService.MimeType.TEXT);
   }
 }
 
 /**
- * Enviar email de notificación
+ * Función que debés programar para que corra cada 24hs.
+ * Mueve filas de la hoja principal a Historial si pasaron más de 24hs.
  */
-function enviarNotificacion(nombre, email, celular, nivel, interes, mensaje) {
+function moverAHistorial() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const origen = ss.getSheetByName(SHEET_NAME);
+  let historial = ss.getSheetByName(HISTORY_SHEET_NAME);
+
+  if (!historial) {
+    historial = ss.insertSheet(HISTORY_SHEET_NAME);
+    historial.appendRow(["Timestamp", "Nombre", "Email", "Celular", "Nivel", "Interés", "Mensaje"]);
+  }
+
+  const datos = origen.getDataRange().getValues();
+  const ahora = new Date().getTime();
+  const unDiaEnMs = 24 * 60 * 60 * 1000;
+
+  for (let i = datos.length - 1; i >= 1; i--) {
+    const filaFecha = new Date(datos[i][0]).getTime();
+
+    if (ahora - filaFecha > unDiaEnMs) {
+      historial.appendRow(datos[i]);
+      origen.deleteRow(i + 1);
+    }
+  }
+
+  const historialLastRow = historial.getLastRow();
+  if (historialLastRow > 1) {
+    historial.getRange(2, 1, historialLastRow - 1, historial.getLastColumn())
+      .sort({ column: 1, ascending: false });
+  }
+}
+
+/**
+ * Envía la notificación al alumno.
+ */
+function enviarNotificacionAlumno(nombre, email, celular, nivel, interes, mensaje) {
+  if (!email) {
+    return;
+  }
+
   try {
-    const subject = `Nueva consulta de ${nombre} - Acción Musical`;
-    const body = `
-<h2>Nuevo contacto desde el formulario</h2>
-<p><strong>Nombre:</strong> ${nombre}</p>
-<p><strong>Email:</strong> ${email}</p>
-<p><strong>Celular:</strong> ${celular}</p>
-<p><strong>Nivel:</strong> ${nivel}</p>
-<p><strong>Interés:</strong> ${interes}</p>
-<p><strong>Mensaje:</strong></p>
-<p>${mensaje.replace(/\n/g, "<br>")}</p>
-<hr>
-<p>Responde directamente a ${email}</p>
-    `;
+    const interesLabel = (interes || "").replace(/-/g, " ");
+    const uniqueID = Math.random().toString(36).substring(7);
+    const subjectAlumno = `¡Hola ${nombre}! Gracias por tu interés en Acción Musical 🎸`;
+    const bodyAlumno = `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-top: 6px solid #ffcc00;"><div style="padding: 20px; text-align: center; background-color: #1a1a1a;"><img src="${LOGO_URL}" alt="Acción Musical" style="max-width: 200px; display: block; margin: 0 auto;"></div><div style="padding: 30px; line-height: 1.6; color: #333;"><h2 style="color: #1a1a1a;">¡Hola ${nombre}!</h2><p>Recibimos tu consulta sobre <strong>${interesLabel}</strong> y estamos muy contentos de que quieras sumarte.</p><p>En breve, uno de nuestros profes se pondrá en contacto con vos.</p><div style="background-color: #f4f4f4; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center;"><p style="margin: 0; font-style: italic;">"La música no solo se toca, se vive."</p></div><div style="text-align: center; margin-top: 30px;"><a href="https://wa.me/5491123403363" style="background-color: #25d366; color: white; padding: 15px 25px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block;">Contactar por WhatsApp</a></div></div><div style="padding: 20px; text-align: center; font-size: 11px; color: #999; background-color: #f9f9f9;"><p>© ${new Date().getFullYear()} Acción Musical. Todos los derechos reservados.</p><small style="color: #eee;">Ref: ${uniqueID}</small></div></div>`;
 
-    MailApp.sendEmail(
-      NOTIFICATION_EMAIL,
-      subject,
-      "",
-      { htmlBody: body }
-    );
-  } catch (error) {
-    Logger.log("Error enviando email: " + error.toString());
+    MailApp.sendEmail(email, subjectAlumno, "", { htmlBody: bodyAlumno });
+  } catch (e) {
+    Logger.log("Error mail: " + e);
   }
 }
 
-/**
- * Función de prueba (ejecuta en Apps Script para verificar)
- */
 function testEmail() {
-  enviarNotificacion(
-    "Test Usuario",
-    "test@example.com",
-    "11 5555 5555",
-    "inicial",
-    "curso",
-    "Este es un mensaje de prueba"
+  enviarNotificacionAlumno(
+    "Test Alumno",
+    "damian.y.more.y.atun@gmail.com",
+    "11 1234 5678",
+    "Inicial",
+    "comedia-musical",
+    "Prueba historial."
   );
-  Logger.log("Email de prueba enviado");
 }
 ```
 
 ---
 
-## Pasos finales:
-
-1. **En tu Google Sheet**, ve a Archivo → Información de la hoja → copia el ID de la URL
-   - URL: `https://docs.google.com/spreadsheets/d/**XXXXX**/`
-   - El ID es la parte en negrita
-
-2. **En Apps Script**, en la variable `SPREADSHEET_ID` al inicio, cambia:
-   ```javascript
-   const SPREADSHEET_ID = "YOUR-SPREADSHEET-ID";
-   ```
-   por tu ID real
-
-3. **Si quieres cambiar el email de notificación**, modifica:
-   ```javascript
-   const NOTIFICATION_EMAIL = "damian.y.more.y.atun@gmail.com";
-   ```
-
-4. **En `assets/js/script.js`**, cambia:
-   ```javascript
-   const SCRIPT_URL = 'https://script.google.com/macros/d/YOUR-SCRIPT-ID/usercache';
-   ```
-   por tu URL real de despliegue
-
----
-
-## Listo! 
-El formulario ahora enviará datos a Google Sheets y te notificará por email cada vez que alguien se contacte.
+**Recuerda programar la función `moverAHistorial()` para que se ejecute cada 24 horas en Apps Script (Triggers).**
